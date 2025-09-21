@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Tasks{% endblock %}
+{% block content %}
+  <a href="{% url 'add_task' %}">Add Task</a>
+  <ul>
+    {% for task in tasks %}
+      <li>
+        {% if task.completed %}<s>{{ task.title }}</s>{% else %}{{ task.title }}{% endif %}
+        <a href="{% url 'edit_task' task.pk %}">Edit</a>
+        <form action="{% url 'delete_task' task.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>No tasks yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
